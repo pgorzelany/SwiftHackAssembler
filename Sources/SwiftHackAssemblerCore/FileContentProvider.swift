@@ -2,8 +2,7 @@ import Foundation
 
 /// Provides the contents of a file as a string
 public class FileContentProvider {
-    public init() {
-    }
+    public init() {}
 
     /// Returns the contents of the file at a given path
     ///

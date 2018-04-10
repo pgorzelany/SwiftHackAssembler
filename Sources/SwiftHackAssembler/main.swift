@@ -5,10 +5,9 @@ guard let filePath = CommandLine.arguments.first else {
     fatalError("Please provide a filepath")
 }
 
-let fileContentProvider = FileContentProvider()
 do {
-    let fileContent = try fileContentProvider.getFileContents(at: filePath)
-    print(fileContent)
+    let assembler = HackAssembler()
+    try assembler.run()
 } catch {
     print("An error occured")
 }
