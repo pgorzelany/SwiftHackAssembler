@@ -1,3 +1,3 @@
 # SwiftHackAssembler
 
-A description of this package.
+An assembler for the Hack machine language written in Swift
