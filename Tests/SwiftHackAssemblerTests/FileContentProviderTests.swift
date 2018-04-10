@@ -11,7 +11,7 @@ class FileContentProviderTests: XCTestCase {
 
         fileContentProvider = FileContentProvider()
         let currentDir = FileManager.default.currentDirectoryPath
-        let relativeFilePath = "Tests/SwiftHackAssemblerTests/FileContentProviderTests/FileContentStub"
+        let relativeFilePath = "Tests/SwiftHackAssemblerTests/Stubs/FileContentStub"
         stubFilePath = "\(currentDir)/\(relativeFilePath)"
     }
 
