@@ -7,4 +7,4 @@
 
 import Foundation
 
-public typealias MemoryAddress = Int
+public typealias MemoryAddress = UInt

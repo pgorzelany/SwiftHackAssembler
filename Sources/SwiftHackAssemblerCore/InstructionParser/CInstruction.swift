@@ -6,3 +6,8 @@
 //
 
 import Foundation
+
+public enum CInstruction {
+    case compute(computation: String, destination: String)
+    case jump(computation: String, jumpOption: String)
+}

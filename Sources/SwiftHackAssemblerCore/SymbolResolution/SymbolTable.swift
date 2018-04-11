@@ -39,7 +39,7 @@ class SymbolTable {
         "SCREEN": 16384,
         "KBD": 24576
     ]
-    private var nextVariableMemoryAddress = 16
+    private var nextVariableMemoryAddress: UInt = 16
 
     // MARK: Methods
 

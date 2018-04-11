@@ -14,6 +14,7 @@ public class HackAssembler {
     let fileContentProvider = FileContentProvider()
     let stripper = CommentAndWhitespaceStripper()
     let symbolResolver = SymbolResolver()
+    let instructionParser = InstructionParser()
 
     // MARK: Lifecycle
 
@@ -27,16 +28,15 @@ public class HackAssembler {
             exit(EXIT_FAILURE)
         }
 
-        let rawLines = try fileContentProvider.getFileContents(at: filePath)
-        let strippedLines = stripper.strip(lines: rawLines)
-        let symbolsResolvedLines = symbolResolver.resolveSymbols(in: strippedLines)
         // 1. Get the file contents
+        let rawLines = try fileContentProvider.getFileContents(at: filePath)
         // 2. Strip the lines of whitespace and comments
-        // 3. Get label symbols and their addresses
-        // 4. Get the variable symbols and their addresses
-        // 5. Replace all symbols with their raw addresses @address
-        // 6. Extract the A and C instructions from the simple assembly file
-        // 7. Translate each instruction into a binary string
-        // 8. Write the binary string into an output file
+        let strippedLines = stripper.strip(lines: rawLines)
+        // 3. Resolve the symbols
+        let symbolsResolvedLines = symbolResolver.resolveSymbols(in: strippedLines)
+        // 4. Extract the A and C instructions from the simple assembly file
+        let instructions = instructionParser.parseInstructions(from: symbolsResolvedLines)
+        // 5. Translate each instruction into a binary string
+        // 6. Write the binary string into an output file
     }
 }

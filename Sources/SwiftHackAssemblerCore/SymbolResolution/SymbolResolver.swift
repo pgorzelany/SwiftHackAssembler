@@ -32,10 +32,10 @@ public class SymbolResolver {
     }
 
     private func resolveLabelDeclarations(in lines: [String]) {
-        var labelCount = 0
+        var labelCount: UInt = 0
         for (index, line) in lines.enumerated() {
             if let labelName = extractLabelDeclaration(from: line) {
-                symbolTable.addLabelSymbol(name: labelName, address: index - labelCount)
+                symbolTable.addLabelSymbol(name: labelName, address: UInt(index) - labelCount)
                 labelCount += 1
             }
         }
