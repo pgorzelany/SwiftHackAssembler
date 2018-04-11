@@ -15,6 +15,7 @@ public class HackAssembler {
     let stripper = CommentAndWhitespaceStripper()
     let symbolResolver = SymbolResolver()
     let instructionParser = InstructionParser()
+    let instructionTranslator = InstructionTranslator()
 
     // MARK: Lifecycle
 
@@ -37,6 +38,7 @@ public class HackAssembler {
         // 4. Extract the A and C instructions from the simple assembly file
         let instructions = instructionParser.parseInstructions(from: symbolsResolvedLines)
         // 5. Translate each instruction into a binary string
+        let machineInstructions = instructionTranslator.translateInstructions(instructions)
         // 6. Write the binary string into an output file
     }
 }
