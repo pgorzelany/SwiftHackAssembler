@@ -9,7 +9,6 @@ import Foundation
 
 /// Stores the symbols and their respective memory addresses
 class SymbolTable {
-    typealias MemoryAddress = Int
     typealias SymbolName = String
 
     // MARK: Properties

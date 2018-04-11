@@ -29,13 +29,14 @@ public class HackAssembler {
 
         let rawLines = try fileContentProvider.getFileContents(at: filePath)
         let strippedLines = stripper.strip(lines: rawLines)
+        let symbolsResolvedLines = symbolResolver.resolveSymbols(in: strippedLines)
         // 1. Get the file contents
         // 2. Strip the lines of whitespace and comments
         // 3. Get label symbols and their addresses
         // 4. Get the variable symbols and their addresses
         // 5. Replace all symbols with their raw addresses @address
         // 6. Extract the A and C instructions from the simple assembly file
-        // 7. Transalte each instruction into a binary string
+        // 7. Translate each instruction into a binary string
         // 8. Write the binary string into an output file
     }
 }

@@ -8,11 +8,15 @@
 import Foundation
 
 /// Resolves and strippes the symbols from the assembly
-class SymbolResolver {
+public class SymbolResolver {
 
     // MARK: Properties
 
     private let symbolTable = SymbolTable()
+
+    // MARK: Lifecycle
+
+    public init() {}
 
     // MARK: Methods
 
@@ -20,7 +24,7 @@ class SymbolResolver {
     ///
     /// - Parameter lines: The assembly program lines, stripped of whitespace and comments
     /// - Returns: Returnes a simplified assembly program with no symbols
-    func resolveSymbols(in lines: [String]) -> [String] {
+    public func resolveSymbols(in lines: [String]) -> [String] {
         var result = lines
         resolveLabelDeclarations(in: result)
         result = removeLabelDeclarations(in: result)
@@ -28,9 +32,11 @@ class SymbolResolver {
     }
 
     private func resolveLabelDeclarations(in lines: [String]) {
+        var labelCount = 0
         for (index, line) in lines.enumerated() {
             if let labelName = extractLabelDeclaration(from: line) {
-                symbolTable.addLabelSymbol(name: labelName, address: index + 1)
+                symbolTable.addLabelSymbol(name: labelName, address: index - labelCount)
+                labelCount += 1
             }
         }
     }
@@ -70,8 +76,13 @@ class SymbolResolver {
             return nil
         }
 
-        var result = line
-        result.removeFirst()
-        return result
+        var symbol = line
+        symbol.removeFirst()
+        guard Int(symbol) == nil else {
+            // If the symbol is a number like @17 then its a raw address and we should leave it alone
+            return nil
+        }
+
+        return symbol
     }
 }
