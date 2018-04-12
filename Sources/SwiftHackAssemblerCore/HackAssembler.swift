@@ -39,6 +39,9 @@ public class HackAssembler {
         let instructions = instructionParser.parseInstructions(from: symbolsResolvedLines)
         // 5. Translate each instruction into a binary string
         let machineInstructions = try instructionTranslator.translateInstructions(instructions)
-        // 6. Write the binary string into an output file
+        // 6. Write the output machine instructions to STDOut
+        machineInstructions.forEach { (instruction) in
+            print(instruction)
+        }
     }
 }
