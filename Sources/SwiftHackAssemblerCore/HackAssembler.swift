@@ -24,7 +24,13 @@ public class HackAssembler {
     // MARK: Methods
 
     public func run() throws {
-        guard let filePath = CommandLine.arguments.first, !filePath.isEmpty else {
+        guard CommandLine.arguments.count == 2 else {
+            print("Please provide a valid path")
+            exit(EXIT_FAILURE)
+        }
+
+        let filePath = CommandLine.arguments[1]
+        guard !filePath.isEmpty else {
             print("Please provide a valid path")
             exit(EXIT_FAILURE)
         }
