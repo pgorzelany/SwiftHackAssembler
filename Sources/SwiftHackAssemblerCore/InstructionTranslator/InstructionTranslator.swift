@@ -64,6 +64,8 @@ public class InstructionTranslator {
         "D|M": "1010101"
     ]
 
+    private let cInstructionPrefix = "111"
+
     // MARK: Lifecycle
 
     public init() {}
@@ -74,33 +76,45 @@ public class InstructionTranslator {
     ///
     /// - Parameter instructions: The simplified assembly instructions
     /// - Returns: An array of machine instructions
-    public func translateInstructions(_ instructions: [Instruction]) -> [String] {
-
-        return []
+    public func translateInstructions(_ instructions: [Instruction]) throws -> [String] {
+        return try instructions.map(translateInstruction)
     }
 
-    private func translateInstruction(_ instruction: Instruction) -> String {
+    private func translateInstruction(_ instruction: Instruction) throws -> String {
         switch instruction {
         case .AInstruction(let aInstruction):
-            return translateAInstruction(aInstruction)
+            let addressTranslation = try translateAInstruction(aInstruction)
+            return "0\(addressTranslation)"
         case .CInstruction(let cInstruction):
-            return translateCInstruction(cInstruction)
+            return try translateCInstruction(cInstruction)
         }
     }
 
-    private func translateAInstruction(_ instruction: AInstruction) -> String {
-        return getBinaryRepresentation(of: instruction.address, length: 15)
+    private func translateAInstruction(_ instruction: AInstruction) throws -> String {
+        return try getBinaryRepresentation(of: instruction.address, length: 15)
     }
 
-    private func translateCInstruction(_ instruction: CInstruction) -> String {
-        fatalError("Not implemented")
+    private func translateCInstruction(_ instruction: CInstruction) throws -> String {
+        switch instruction {
+        case .jump(let rawComputation, let rawJump):
+            guard let computation = computationTranslationTable[rawComputation], let jump = jumpTranslationTable[rawJump] else {
+                throw AssemblyError(message: "Invalid instruction: \(rawComputation);\(rawJump)")
+            }
+            return "\(cInstructionPrefix)\(computation)000\(jump)"
+        case .compute(let rawComputation, let rawDestination):
+            guard let destination = destinationTranslationTable[rawDestination], let computation = computationTranslationTable[rawComputation] else {
+                throw AssemblyError(message: "Invalid instruction: \(rawDestination)=\(rawComputation)")
+            }
+
+            return "\(cInstructionPrefix)\(computation)\(destination)000"
+        }
     }
 
-    private func getBinaryRepresentation(of address: MemoryAddress, length: UInt) -> String {
+    private func getBinaryRepresentation(of address: MemoryAddress, length: UInt) throws -> String {
         let binaryAddressString = String(address, radix: 2)
         let padding = Int(length) - binaryAddressString.count
         guard padding > 0 else {
-            return binaryAddressString
+            throw AssemblyError(message: "Invalid address: \(address). Address exceeds the computer register width")
         }
 
         return String(repeating: "0", count: padding) + binaryAddressString
