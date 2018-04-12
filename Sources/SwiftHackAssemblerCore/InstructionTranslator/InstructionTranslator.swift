@@ -113,7 +113,7 @@ public class InstructionTranslator {
     private func getBinaryRepresentation(of address: MemoryAddress, length: UInt) throws -> String {
         let binaryAddressString = String(address, radix: 2)
         let padding = Int(length) - binaryAddressString.count
-        guard padding > 0 else {
+        guard padding >= 0 else {
             throw AssemblyError(message: "Invalid address: \(address). Address exceeds the computer register width")
         }
 
