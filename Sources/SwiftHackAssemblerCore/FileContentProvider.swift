@@ -8,8 +8,12 @@ public class FileContentProvider {
     ///
     /// - Parameter path: The full path to the file
     /// - Returns: An array of lines from the file
-    public func getFileContents(at path: String) throws -> [String] {
-        let data = try String.init(contentsOfFile: path)
+    public func getFileLines(at path: String) throws -> [String] {
+        let data = try getFileContent(at: path)
         return data.components(separatedBy: .newlines)
+    }
+
+    public func getFileContent(at path: String) throws -> String {
+        return try String.init(contentsOfFile: path)
     }
 }

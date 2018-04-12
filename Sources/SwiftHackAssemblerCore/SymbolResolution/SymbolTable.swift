@@ -48,8 +48,13 @@ class SymbolTable {
     }
 
     func getAddress(for symbol: SymbolName) -> MemoryAddress {
-        let address = symbolDictionary[symbol, default: nextVariableMemoryAddress]
-        nextVariableMemoryAddress += 1
-        return address
+        if let address = symbolDictionary[symbol] {
+            return address
+        } else {
+            let newAddress = nextVariableMemoryAddress
+            symbolDictionary[symbol] = newAddress
+            nextVariableMemoryAddress += 1
+            return newAddress
+        }
     }
 }

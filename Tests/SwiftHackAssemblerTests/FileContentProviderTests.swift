@@ -17,7 +17,7 @@ class FileContentProviderTests: XCTestCase {
 
     func testReadingContentsOfFile() {
         do {
-            _ = try fileContentProvider.getFileContents(at: stubFilePath)
+            _ = try fileContentProvider.getFileLines(at: stubFilePath)
         } catch {
             XCTAssert(false, "Could not get contents of file")
         }
@@ -25,7 +25,7 @@ class FileContentProviderTests: XCTestCase {
 
     func testReadingAllLinesOfFile() {
         do {
-            let contents = try fileContentProvider.getFileContents(at: stubFilePath)
+            let contents = try fileContentProvider.getFileLines(at: stubFilePath)
             XCTAssert(contents.count == 6, "The content should have 6 lines. It has \(contents.count)")
         } catch {
             XCTAssert(false, "Could not get contents of file")
@@ -34,7 +34,7 @@ class FileContentProviderTests: XCTestCase {
 
     func testReadingSpecificLines() {
         do {
-            let contents = try fileContentProvider.getFileContents(at: stubFilePath)
+            let contents = try fileContentProvider.getFileLines(at: stubFilePath)
             XCTAssert(contents[0] == "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.", "Line was not read correctly")
             XCTAssert(contents[4] == "sunt in culpa qui officia deserunt mollit anim id est laborum.", "Contents no read correctly")
             XCTAssert(contents[5].isEmpty, "Last line should be empty")

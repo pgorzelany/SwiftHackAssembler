@@ -63,11 +63,13 @@ class SymbolResolverTests: XCTestCase {
         let lines = [
             "@x",
             "0;JMP",
-            "@y"
+            "@y",
+            "@x"
         ]
 
         let results = resolver.resolveSymbols(in: lines)
         XCTAssert(results[0] == "@16", "First variable should have address 16")
         XCTAssert(results[2] == "@17", "Second variable should have address 17")
+        XCTAssert(results[3] == "@16", "First variable should have address 16")
     }
 }

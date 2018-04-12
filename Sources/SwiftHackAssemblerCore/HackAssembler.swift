@@ -35,8 +35,16 @@ public class HackAssembler {
             exit(EXIT_FAILURE)
         }
 
+        print(try assembleFile(at: filePath))
+    }
+
+    public func assembleFile(at filePath: String) throws -> String {
         // 1. Get the file contents
-        let rawLines = try fileContentProvider.getFileContents(at: filePath)
+        let rawLines = try fileContentProvider.getFileLines(at: filePath)
+        return try assembleProgram(lines: rawLines)
+    }
+
+    public func assembleProgram(lines rawLines: [String]) throws -> String {
         // 2. Strip the lines of whitespace and comments
         let strippedLines = stripper.strip(lines: rawLines)
         // 3. Resolve the symbols
@@ -45,9 +53,7 @@ public class HackAssembler {
         let instructions = instructionParser.parseInstructions(from: symbolsResolvedLines)
         // 5. Translate each instruction into a binary string
         let machineInstructions = try instructionTranslator.translateInstructions(instructions)
-        // 6. Write the output machine instructions to STDOut
-        machineInstructions.forEach { (instruction) in
-            print(instruction)
-        }
+        // 6. Return the complete program translated to machine instructions
+        return machineInstructions.joined(separator: "\n")
     }
 }
