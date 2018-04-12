@@ -13,7 +13,7 @@ public class InstructionTranslator {
 
     private let jumpTranslationTable: [String: String] = [
         "null": "000",
-        "JQT": "001",
+        "JGT": "001",
         "JEQ": "010",
         "JGE": "011",
         "JLT": "100",
